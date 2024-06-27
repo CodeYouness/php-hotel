@@ -1,7 +1,15 @@
 <?php
 include_once __DIR__ . "/hotels.php";
 
-var_dump($hotels)
+$filteredhotels = [];
+
+$_GET['parking'] = $_GET['parking'] ?? 'default';
+
+if ($_GET['parking'] == 'default') {
+    $filteredhotels = $hotels;
+}
+
+var_dump($_GET['parking']);
 ?>
 
 <!DOCTYPE html>
@@ -17,9 +25,21 @@ var_dump($hotels)
 
 <body>
 
-    <main class="d-flex container">
-        <div class="row">
-            <?php foreach ($hotels as $hotel) { ?>
+
+    <main class="container">
+
+        <form action="./index.php" method="get">
+            <label for="parking">parking:</label>
+            <select name="parking" id="parking">
+                <option value="default" selected>Default</option>
+                <option value="on">With</option>
+                <option value="off">Without</option>
+            </select>
+            <button type="submit" class="btn btn-dark btn-sm">Send</button>
+        </form>
+
+        <div class="row d-flex">
+            <?php foreach ($filteredhotels as $hotel) { ?>
                 <div class="col-4 mb-3">
                     <div class="card">
                         <div class="card-body">
