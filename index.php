@@ -4,6 +4,7 @@ include_once __DIR__ . "/hotels.php";
 $filteredhotels = [];
 
 $_GET['parking'] = $_GET['parking'] ?? 'default';
+$_GET['value'] = $_GET['value'] ?? 'default';
 
 if ($_GET['parking'] == 'default') {
     $filteredhotels = $hotels;
@@ -21,7 +22,23 @@ if ($_GET['parking'] == 'default') {
     }
 }
 
-var_dump($_GET['parking']);
+$hotelvalue = 0;
+$secondfilteredhotels = [];
+
+if (!($_GET['value'] == 'default')) {
+    $hotelvalue = (int)$_GET['value'];
+}
+
+if ($hotelvalue > 0) {
+    foreach ($filteredhotels as $hotel) {
+        if ($hotel['vote'] == $hotelvalue)
+            $secondfilteredhotels[] = $hotel;
+    }
+} else {
+    $secondfilteredhotels = $filteredhotels;
+}
+
+var_dump($hotelvalue);
 ?>
 
 <!DOCTYPE html>
@@ -41,17 +58,26 @@ var_dump($_GET['parking']);
     <main class="container">
 
         <form action="./index.php" method="get">
-            <label for="parking">parking:</label>
+            <label for="parking">Parking:</label>
             <select name="parking" id="parking">
                 <option value="default">Default</option>
                 <option value="on">With</option>
                 <option value="off">Without</option>
             </select>
+            <label for="value">Value:</label>
+            <select name="value" id="value">
+                <option value="default">Default</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+                <option value="4">Four</option>
+                <option value="5">Five</option>
+            </select>
             <button type="submit" class="btn btn-dark btn-sm">Send</button>
         </form>
 
         <div class="row d-flex">
-            <?php foreach ($filteredhotels as $hotel) { ?>
+            <?php foreach ($secondfilteredhotels as $hotel) { ?>
                 <div class="col-4 mb-3">
                     <div class="card">
                         <div class="card-body">
