@@ -7,6 +7,18 @@ $_GET['parking'] = $_GET['parking'] ?? 'default';
 
 if ($_GET['parking'] == 'default') {
     $filteredhotels = $hotels;
+} elseif ($_GET['parking'] == 'on') {
+    foreach ($hotels as $hotel) {
+        if ($hotel['parking']) {
+            $filteredhotels[] = $hotel;
+        }
+    }
+} elseif ($_GET['parking'] == 'off') {
+    foreach ($hotels as $hotel) {
+        if (!$hotel['parking']) {
+            $filteredhotels[] = $hotel;
+        }
+    }
 }
 
 var_dump($_GET['parking']);
@@ -31,7 +43,7 @@ var_dump($_GET['parking']);
         <form action="./index.php" method="get">
             <label for="parking">parking:</label>
             <select name="parking" id="parking">
-                <option value="default" selected>Default</option>
+                <option value="default">Default</option>
                 <option value="on">With</option>
                 <option value="off">Without</option>
             </select>
